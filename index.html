@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Detección de Fraude en Transacciones</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { max-width: 400px; margin: auto; }
+        label { display: block; margin-top: 10px; }
+        input, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+        button { margin-top: 20px; padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
+        #resultado { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>Sistema de Detección de Fraude en Transacciones</h1>
+    <form id="fraudForm">
+        <label for="monto">Monto de la Transacción:</label>
+        <input type="number" id="monto" required>
+
+        <label for="fecha">Fecha de la Transacción:</label>
+        <input type="date" id="fecha" required>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" rows="3" required></textarea>
+
+        <label for="imagen">Subir Imagen (Comprobante):</label>
+        <input type="file" id="imagen" accept="image/*" required>
+
+        <button type="submit">Analizar Transacción</button>
+    </form>
+
+    <div id="resultado"></div>
+
+    <script>
+        document.getElementById('fraudForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const monto = parseFloat(document.getElementById('monto').value);
+            const fecha = document.getElementById('fecha').value;
+            const descripcion = document.getElementById('descripcion').value;
+            const imagen = document.getElementById('imagen').files[0];
+            
+            let resultado = "Transacción analizada: ";
+            let esFraude = false;
+            
+            if (monto > 1000) {
+                resultado += "Posible fraude detectado (monto alto). ";
+                esFraude = true;
+            } else {
+                resultado += "Monto normal. ";
+            }
+            
+            if (imagen) {
+                resultado += "Imagen subida correctamente. ";
+            } else {
+                resultado += "No se subió imagen. ";
+                esFraude = true;
+            }
+            
+            if (!esFraude) {
+                resultado += "Transacción aprobada.";
+            } else {
+                resultado += "Transacción rechazada por posible fraude.";
+            }
+            
+            document.getElementById('resultado').innerText = resultado;
+        });
+    </script>
+</body>
+</html>
